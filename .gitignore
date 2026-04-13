@@ -1,0 +1,23 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Project specific
+# uv.lock might be intended to be committed depending on the workflow. We will skip ignoring uv.lock, usually it's committed.
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
