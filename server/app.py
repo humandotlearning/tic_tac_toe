@@ -38,7 +38,7 @@ except Exception as e:  # pragma: no cover
 try:
     from ..models import TicTacToeAction, TicTacToeObservation
     from .tic_tac_toe_environment import TicTacToeEnvironment
-except ModuleNotFoundError:
+except ImportError:
     from models import TicTacToeAction, TicTacToeObservation
     from server.tic_tac_toe_environment import TicTacToeEnvironment
 

@@ -235,6 +235,16 @@ Run the server locally for development:
 uvicorn server.app:app --reload
 ```
 
+To enable the interactive web interface at `/web`, you must set the `ENABLE_WEB_INTERFACE` environment variable:
+
+```bash
+# Linux / macOS
+ENABLE_WEB_INTERFACE=1 uvicorn server.app:app --reload
+
+# Windows (PowerShell)
+$env:ENABLE_WEB_INTERFACE="1"; uvicorn server.app:app --reload
+```
+
 ## Project Structure
 
 ```
