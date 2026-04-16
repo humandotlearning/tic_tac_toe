@@ -27,19 +27,19 @@ class TicTacToeEnv(
 
     Example:
         >>> # Connect to a running server
-        >>> with TicTacToeEnv(base_url="http://localhost:8000") as client:
+        >>> with TicTacToeEnv(base_url="http://localhost:8000").sync() as client:
         ...     result = client.reset()
-        ...     print(result.observation.echoed_message)
+        ...     print(result.observation.board)
         ...
-        ...     result = client.step(TicTacToeAction(message="Hello!"))
-        ...     print(result.observation.echoed_message)
+        ...     result = client.step(TicTacToeAction(position=4))
+        ...     print(result.observation.board)
 
     Example with Docker:
         >>> # Automatically start container and connect
-        >>> client = TicTacToeEnv.from_docker_image("tic_tac_toe-env:latest")
+        >>> client = TicTacToeEnv.from_docker_image("tic_tac_toe-env:latest").sync()
         >>> try:
         ...     result = client.reset()
-        ...     result = client.step(TicTacToeAction(message="Test"))
+        ...     result = client.step(TicTacToeAction(position=4))
         ... finally:
         ...     client.close()
     """
@@ -55,7 +55,7 @@ class TicTacToeEnv(
             Dictionary representation suitable for JSON encoding
         """
         return {
-            "message": action.message,
+            "position": action.position,
         }
 
     def _parse_result(self, payload: Dict) -> StepResult[TicTacToeObservation]:
@@ -70,8 +70,11 @@ class TicTacToeEnv(
         """
         obs_data = payload.get("observation", {})
         observation = TicTacToeObservation(
-            echoed_message=obs_data.get("echoed_message", ""),
-            message_length=obs_data.get("message_length", 0),
+            board=obs_data.get("board", [" "] * 9),
+            current_player=obs_data.get("current_player", "X"),
+            winner=obs_data.get("winner"),
+            is_tie=obs_data.get("is_tie", False),
+            invalid_move=obs_data.get("invalid_move", False),
             done=payload.get("done", False),
             reward=payload.get("reward"),
             metadata=obs_data.get("metadata", {}),
